@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+// This is the structure Hermes will pack/unpack for you
+message Heartbeat {
+  uint64 timestamp_us = 1; // Time in microseconds
+  uint32 node_id = 2;      // ID of the sender
+  float cpu_usage = 3;     // Simulated sensor data
+}
