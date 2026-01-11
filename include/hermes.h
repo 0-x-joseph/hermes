@@ -13,7 +13,7 @@
 #ifndef __HERMES__
 #define __HERMES__
 
-#include "nats.h"
+#include "../third_party/nats/src/nats.h"
 #include <assert.h>
 #include <protobuf-c/protobuf-c.h>
 #include <stdbool.h>
