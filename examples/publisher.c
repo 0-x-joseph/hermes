@@ -1,5 +1,5 @@
-#include "heartbeat.pb-c.h"
-#include "hermes.h"
+#include "../build/heartbeat.pb-c.h"
+#include "../include/hermes.h"
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
@@ -11,7 +11,6 @@ uint64_t get_time_us() {
 }
 
 int main() {
-  // Initialize Hermes with 1MB pool
   hermes_t *h = hermes_init("nats://127.0.0.1:4222", 1024 * 1024);
   if (!h)
     return 1;
@@ -20,19 +19,25 @@ int main() {
 
   Heartbeat msg = HEARTBEAT__INIT;
   msg.node_id = 1;
-  msg.cpu_usage = 15.5f; // Initial simulated value
+  msg.cpu_usage = 0.0f;
+
+  uint64_t start_time = get_time_us();
+  uint64_t msg_count = 0;
 
   while (1) {
     msg.timestamp_us = get_time_us();
-
-    // Slightly vary CPU usage to simulate real data
-    msg.cpu_usage += 0.1f;
-    if (msg.cpu_usage > 100.0f)
-      msg.cpu_usage = 10.0f;
+    msg.cpu_usage = (float)(msg_count % 100);
 
     hermes_publish(h, "hermes.drone.1.hb", &heartbeat__descriptor, &msg);
+    msg_count++;
 
-    // 10ms delay for 100Hz
+    if (msg_count % 1000 == 0) {
+      double elapsed = (get_time_us() - start_time) / 1000000.0;
+      printf("[PUB] Total Msgs: %lu | Throughput: %.2f msg/s\n", msg_count,
+             (double)msg_count / elapsed);
+    }
+
+    // 10ms interval for 100Hz
     usleep(10000);
   }
 
