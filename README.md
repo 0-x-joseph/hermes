@@ -1,24 +1,16 @@
 # Hermes: High-Performance Robotics Middleware
-
-**Hermes** is a minimalist, single-header C middleware designed to provide a "lean nervous system" for autonomous agents and robotic swarms. It eliminates the complexity of heavyweight industry stacks by combining a broker-based transport with a deterministic memory model.
+**Hermes** is a minimalist, single-header C middleware designed to provide a fast and reliable way for robots to talk to each other. Instead of using heavy and complex software, it uses a single-file approach that keeps everything lean. It eliminates the complexity of heavyweight industry stacks by combining a broker-based transport (NATS) with a deterministic memory model.
 
 ---
 
 ## Table of Contents
 
-1. [Description](#description)
-2. [The "Why": Design Decisions](#design-decisions)
-3. [Benefits of Hermes](#benefits-of-hermes)
-4. [API Design](#api-design)
-5. [Usage Guide](#usage-guide)
-6. [How to Run the Prototype](#how-to-test)
-7. [Prototype Status](#prototype-status)
-
----
-
-## Description
-
-Hermes is a "zero-install" communication layer. It allows diverse software modules—written in any language—to synchronize state at high frequencies. By leveraging **NATS** for transport and **Protocol Buffers (Protobuf)** for serialization, it achieves sub-millisecond latency while maintaining a binary footprint of less than 50KB.
+1. [Design Decisions](#design-decisions)
+2. [Benefits of Hermes](#benefits-of-hermes)
+3. [API Design](#api-design)
+4. [Usage Guide](#usage-guide)
+5. [How to Test](#how-to-test)
+6. [Prototype Status](#prototype-status)
 
 ---
 
@@ -26,20 +18,16 @@ Hermes is a "zero-install" communication layer. It allows diverse software modul
 
 Hermes solves specific engineering pain points found in modern robotics:
 
-* 
-**Eliminating Heap Jitter:** Standard programs often "hunt" for memory while running, causing random lag spikes (latency jitter). Hermes uses a **Static Arena Allocator**; it pre-allocates a single block of memory at startup, ensuring that the time to pack and send data remains constant.
+- **Eliminating Heap Jitter:** Standard programs often "hunt" for memory while running, causing random lag spikes (latency jitter). Hermes uses a **Static Arena Allocator**; it pre-allocates a single block of memory at startup, ensuring that the time to pack and send data remains constant.
 
 
-* 
-**Broker-Based Efficiency (NATS):** Instead of every robot trying to talk to every other robot directly (which scales poorly at ), Hermes uses a central broker. This reduces network complexity to  at the robot level, making connections stable over cellular or internet links.
+- **Broker-Based Efficiency (NATS):** Instead of every robot trying to talk to every other robot directly (which scales poorly at ), Hermes uses a central broker. This reduces network complexity to  at the robot level, making connections stable over cellular or internet links.
 
 
-* 
-**Language Agnostic:** By using **Protobuf-C**, data is defined in a universal schema. You can write performance-critical code in C, while telemetry dashboards or AI modules can be written in Python, Go, or JavaScript.
+- **Language Agnostic:** By using **Protobuf-C**, data is defined in a universal schema. You can write performance-critical code in C, while telemetry dashboards or AI modules can be written in Python, Go, or JavaScript.
 
 
-* 
-**Single-Header Philosophy:** Inspired by "STB-style" libraries, the entire framework is contained in one `.h` file. This avoids "dependency hell" and makes cross-compiling for different hardware (ARM, x86) instantaneous.
+- **Single-Header Philosophy:** Inspired by "STB-style" libraries, the entire framework is contained in one `.h` file. This avoids "dependency hell" and makes cross-compiling for different hardware (ARM, x86) instantaneous.
 
 
 
