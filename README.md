@@ -111,7 +111,7 @@ sudo apt update && sudo apt install libprotobuf-c-dev protobuf-c-compiler nats-s
 ### 2. Build
 
 ```bash
-git clone --recursive [your-repo-url]
+git clone --recursive https://github.com/0-x-joseph/hermes.git
 cd hermes
 mkdir build && cd build
 cmake ..
