@@ -36,7 +36,6 @@ int hermes_publish(hermes_t *h, const char *topic,
 int hermes_subscribe(hermes_t *h, const char *topic,
                      const ProtobufCMessageDescriptor *d, hermes_handler_t cb,
                      void *user_data);
-#define HERMES_IMPLEMENTATION
 
 #ifdef HERMES_IMPLEMENTATION
 
